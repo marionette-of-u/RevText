@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 // http://hongliang.seesaa.net/article/7539988.html より
 
-namespace revtext
+namespace RevText
 {
     ///<summary>キーボードが操作されたときに実行されるメソッドを表すイベントハンドラ。</summary>
     public delegate void KeyboardHookedEventHandler(object sender, KeyboardHookedEventArgs e);

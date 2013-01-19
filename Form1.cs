@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace revtext
+namespace RevText
 {
     public partial class Form1 : Form
     {
@@ -27,10 +27,9 @@ namespace revtext
 
         static public void KeyboardHookedEventHandler1(object sender, KeyboardHookedEventArgs e)
         {
-            if (e.UpDown == KeyboardUpDown.Down && e.AltDown && e.KeyCode == Keys.B && Clipboard.ContainsText())
+            if (e.UpDown == KeyboardUpDown.Down && e.AltDown && e.KeyCode == Keys.J && Clipboard.ContainsText())
             {
-                e.Cancel = false;
-                Clipboard.SetDataObject(Program.Reverse(Program.HiraToKana(Program.RevAlpha(Clipboard.GetText()))), true);
+                Clipboard.SetDataObject(Program.RevProc(Clipboard.GetText()), true);
             }
         }
 

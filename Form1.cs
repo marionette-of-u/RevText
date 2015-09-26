@@ -20,10 +20,12 @@ namespace RevText
             InitializeComponent();
             ShowInTaskbar = false;
             Visible = false;
+            Program.ReadConfig(this);
         }
 
         private void ToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            Program.WriteConfig();
             hook.Dispose();
             Dispose();
         }
@@ -38,14 +40,38 @@ namespace RevText
             {
                 keyFlags.Remove(e.KeyCode);
             }
-            if (Clipboard.ContainsText() && (keyFlags.Contains(Keys.LControlKey) || keyFlags.Contains(Keys.RControlKey)) && keyFlags.Contains(Keys.Q))
+            if (Clipboard.ContainsText() && (keyFlags.Contains(Keys.LControlKey) || keyFlags.Contains(Keys.RControlKey)) && keyFlags.Contains(Program.hotKey))
             {
-                e.Cancel = true;
+                e.Cancel = Program.through;
                 Clipboard.SetDataObject(Program.RevProc(Clipboard.GetText()), true);
             }
         }
 
         KeyboardHook hook = new KeyboardHook(KeyboardHookedEventHandler1);
         static Hashtable keyFlags = new Hashtable();
+
+        private void translateCodeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            translateCodeToolStripMenuItem.Checked = !translateCodeToolStripMenuItem.Checked;
+            Program.translateCode = translateCodeToolStripMenuItem.Checked;
+        }
+
+        private void throughHotKeyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            throughHotKeyToolStripMenuItem.Checked = !throughHotKeyToolStripMenuItem.Checked;
+            Program.through = throughHotKeyToolStripMenuItem.Checked;
+        }
+
+        private void kanaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            kanaToolStripMenuItem.Checked = !kanaToolStripMenuItem.Checked;
+            Program.qKana = kanaToolStripMenuItem.Checked;
+        }
+
+        private void kanjiToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            kanjiToolStripMenuItem.Checked = !kanjiToolStripMenuItem.Checked;
+            Program.qJi = kanjiToolStripMenuItem.Checked;
+        }
     }
 }

@@ -1,23 +1,330 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace RevText
 {
     static class Program
     {
+        static Form1 form;
+
+        // 設定ファイル名
+        static string configFileName = "config.txt";
+
+        // ホットキー
+        public static Keys hotKey;
+
+        // ホットキーを透過する
+        public static bool through;
+
+        // 旧仮名に変換する
+        public static bool qKana;
+
+        // 旧字に変換する
+        public static bool qJi;
+
+        // 文字参照コードに変換する
+        public static bool translateCode;
+
+        public static void WriteConfig()
+        {
+            using (StreamWriter sw = new StreamWriter(configFileName, false, Encoding.GetEncoding("UTF-8"))) {
+                sw.WriteLine(hotKey.ToString());
+                sw.WriteLine(through.ToString());
+                sw.WriteLine(qKana.ToString());
+                sw.WriteLine(qJi.ToString());
+                sw.WriteLine(translateCode.ToString());
+            }
+        }
+
+        public static void ReadConfig(Form1 f)
+        {
+            form = f;
+            while (true)
+            {
+                try
+                {
+                    using (StreamReader sr = new StreamReader(configFileName))
+                    {
+                        // ホットキーの読み込み
+                        switch (sr.ReadLine())
+                        {
+                            case "A":
+                            case "a":
+                                hotKey = Keys.A;
+                                break;
+
+                            case "B":
+                            case "b":
+                                hotKey = Keys.B;
+                                break;
+
+                            case "C":
+                            case "c":
+                                hotKey = Keys.C;
+                                break;
+
+                            case "D":
+                            case "d":
+                                hotKey = Keys.D;
+                                break;
+
+                            case "E":
+                            case "e":
+                                hotKey = Keys.E;
+                                break;
+
+                            case "F":
+                            case "f":
+                                hotKey = Keys.F;
+                                break;
+
+                            case "G":
+                            case "g":
+                                hotKey = Keys.G;
+                                break;
+
+                            case "H":
+                            case "h":
+                                hotKey = Keys.H;
+                                break;
+
+                            case "I":
+                            case "i":
+                                hotKey = Keys.I;
+                                break;
+
+                            case "J":
+                            case "j":
+                                hotKey = Keys.J;
+                                break;
+
+                            case "K":
+                            case "k":
+                                hotKey = Keys.K;
+                                break;
+
+                            case "L":
+                            case "l":
+                                hotKey = Keys.L;
+                                break;
+
+                            case "M":
+                            case "m":
+                                hotKey = Keys.M;
+                                break;
+
+                            case "N":
+                            case "n":
+                                hotKey = Keys.N;
+                                break;
+
+                            case "O":
+                            case "o":
+                                hotKey = Keys.O;
+                                break;
+
+                            case "P":
+                            case "p":
+                                hotKey = Keys.P;
+                                break;
+
+                            case "Q":
+                            case "q":
+                                hotKey = Keys.Q;
+                                break;
+
+                            case "R":
+                            case "r":
+                                hotKey = Keys.R;
+                                break;
+
+                            case "S":
+                            case "s":
+                                hotKey = Keys.S;
+                                break;
+
+                            case "T":
+                            case "t":
+                                hotKey = Keys.T;
+                                break;
+
+                            case "U":
+                            case "u":
+                                hotKey = Keys.U;
+                                break;
+
+                            case "V":
+                            case "v":
+                                hotKey = Keys.V;
+                                break;
+
+                            case "W":
+                            case "w":
+                                hotKey = Keys.W;
+                                break;
+
+                            case "X":
+                            case "x":
+                                hotKey = Keys.X;
+                                break;
+
+                            case "Y":
+                            case "y":
+                                hotKey = Keys.Y;
+                                break;
+
+                            case "Z":
+                            case "z":
+                                hotKey = Keys.Z;
+                                break;
+
+                            case "1":
+                                hotKey = Keys.D1;
+                                break;
+
+                            case "2":
+                                hotKey = Keys.D2;
+                                break;
+
+                            case "3":
+                                hotKey = Keys.D3;
+                                break;
+
+                            case "4":
+                                hotKey = Keys.D4;
+                                break;
+
+                            case "5":
+                                hotKey = Keys.D5;
+                                break;
+
+                            case "6":
+                                hotKey = Keys.D6;
+                                break;
+
+                            case "7":
+                                hotKey = Keys.D7;
+                                break;
+
+                            case "8":
+                                hotKey = Keys.D8;
+                                break;
+
+                            case "9":
+                                hotKey = Keys.D9;
+                                break;
+
+                            case "0":
+                                hotKey = Keys.D0;
+                                break;
+
+                            case "F1":
+                                hotKey = Keys.F1;
+                                break;
+
+                            case "F2":
+                                hotKey = Keys.F2;
+                                break;
+
+                            case "F3":
+                                hotKey = Keys.F3;
+                                break;
+
+                            case "F4":
+                                hotKey = Keys.F4;
+                                break;
+
+                            case "F5":
+                                hotKey = Keys.F5;
+                                break;
+
+                            case "F6":
+                                hotKey = Keys.F6;
+                                break;
+
+                            case "F7":
+                                hotKey = Keys.F7;
+                                break;
+
+                            case "F8":
+                                hotKey = Keys.F8;
+                                break;
+
+                            case "F9":
+                                hotKey = Keys.F9;
+                                break;
+
+                            case "F10":
+                                hotKey = Keys.F10;
+                                break;
+
+                            case "F11":
+                                hotKey = Keys.F11;
+                                break;
+
+                            case "F12":
+                                hotKey = Keys.F12;
+                                break;
+
+                            default:
+                                throw new Exception();
+                        }
+
+                        // キー透過の読み込み
+                        through = bool.Parse(sr.ReadLine());
+                        f.throughHotKeyToolStripMenuItem.Checked = through;
+
+                        // 旧仮名変換の読み込み
+                        qKana = bool.Parse(sr.ReadLine());
+                        f.kanaToolStripMenuItem.Checked = qKana;
+
+                        // 旧字変換の読み込み
+                        qJi = bool.Parse(sr.ReadLine());
+                        f.kanjiToolStripMenuItem.Checked = qJi;
+
+                        // 文字参照コード変換の読み込み
+                        translateCode = bool.Parse(sr.ReadLine());
+                        f.translateCodeToolStripMenuItem.Checked = translateCode;
+                    }
+                }
+                catch (Exception)
+                {
+                    WriteDefault();
+                    continue;
+                }
+
+                break;
+            }
+        }
+
+        static void WriteDefault()
+        {
+            hotKey = Keys.Q;
+            through = false;
+            qKana = true;
+            qJi = true;
+            translateCode = true;
+
+            WriteConfig();
+        }
+
         /// <summary>
         /// アプリケーションのメイン エントリ ポイントです。
         /// </summary>
         [STAThread]
         static void Main()
         {
+            //ShinjiToQji("祈れ！");
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            Application.Run(form = new Form1());
         }
 
         static public string RevProc(string str)
@@ -40,8 +347,13 @@ namespace RevText
 
         static string ShinjiToQji(string str)
         {
+            if (!qJi)
+            {
+                return str;
+            }
             int length = str.Length;
-            byte[] unicodeByteStr = new byte[length * 2];
+            byte[] unicodeByteStr = new byte[(length + 3) * 5];
+            int unicodeByteStrCounter = 0;
             char[] charArray = new char[length];
             for (int i = 0; i < str.Length; ++i)
             {
@@ -49,18 +361,34 @@ namespace RevText
                 int n = Search(charCode, neworderNew);
                 if (n < 0)
                 {
-                    unicodeByteStr[i * 2 + 0] = (byte)(charCode & 0xFF);
-                    unicodeByteStr[i * 2 + 1] = (byte)((charCode >> 8) & 0xFF);
+                    unicodeByteStr[unicodeByteStrCounter + 0] = (byte)(charCode & 0xFF);
+                    unicodeByteStr[unicodeByteStrCounter + 1] = (byte)((charCode >> 8) & 0xFF);
+                    unicodeByteStrCounter += 2;
                 }
                 else
                 {
                     UInt16 a = neworderOld[n];
-                    unicodeByteStr[i * 2 + 0] = (byte)(a & 0xFF);
-                    unicodeByteStr[i * 2 + 1] = (byte)((a >> 8) & 0xFF);
+                    if (/*translateCode*/ true)
+                    {
+                        string code = "&#" + a.ToString() + ";";
+                        for (int j = 0; j < code.Length; ++j)
+                        {
+                            UInt16 c = (UInt16)code[j];
+                            unicodeByteStr[unicodeByteStrCounter + 0] = (byte)(c & 0xFF);
+                            unicodeByteStr[unicodeByteStrCounter + 1] = (byte)((c >> 8) & 0xFF);
+                            unicodeByteStrCounter += 2;
+                        }
+                    }
+                    else
+                    {
+                        unicodeByteStr[unicodeByteStrCounter + 0] = (byte)(a & 0xFF);
+                        unicodeByteStr[unicodeByteStrCounter + 1] = (byte)((a >> 8) & 0xFF);
+                        unicodeByteStrCounter += 2;
+                    }
                 }
             }
             System.Text.UTF8Encoding utf8 = new System.Text.UTF8Encoding();
-            byte[] utf8Bytes = System.Text.Encoding.Convert(new System.Text.UnicodeEncoding(), utf8, unicodeByteStr);
+            byte[] utf8Bytes = System.Text.Encoding.Convert(new System.Text.UnicodeEncoding(), utf8, unicodeByteStr, 0, unicodeByteStrCounter);
             char[] utf8Chars = new char[utf8.GetCharCount(utf8Bytes)];
             utf8Chars = utf8.GetChars(utf8Bytes, 0, utf8Bytes.Length);
             return new string(utf8Chars);
@@ -115,167 +443,170 @@ namespace RevText
             string ret = "";
             foreach (char c in str)
             {
-                if (c == 'あ') { ret += 'ア'; continue; }
-                if (c == 'い') { ret += 'ヰ'; continue; }
-                if (c == 'う') { ret += 'ウ'; continue; }
-                if (c == 'え') { ret += 'ヱ'; continue; }
-                if (c == 'お') { ret += 'ヲ'; continue; }
-                if (c == 'か') { ret += 'カ'; continue; }
-                if (c == 'き') { ret += 'キ'; continue; }
-                if (c == 'く') { ret += 'ク'; continue; }
-                if (c == 'け') { ret += 'ケ'; continue; }
-                if (c == 'こ') { ret += 'コ'; continue; }
-                if (c == 'が') { ret += 'ガ'; continue; }
-                if (c == 'ぎ') { ret += 'ギ'; continue; }
-                if (c == 'ぐ') { ret += 'グ'; continue; }
-                if (c == 'げ') { ret += 'ゲ'; continue; }
-                if (c == 'ご') { ret += 'ゴ'; continue; }
-                if (c == 'さ') { ret += 'サ'; continue; }
-                if (c == 'し') { ret += 'シ'; continue; }
-                if (c == 'す') { ret += 'ス'; continue; }
-                if (c == 'せ') { ret += 'セ'; continue; }
-                if (c == 'そ') { ret += 'ソ'; continue; }
-                if (c == 'ざ') { ret += 'ザ'; continue; }
-                if (c == 'じ') { ret += 'ジ'; continue; }
-                if (c == 'ず') { ret += 'ズ'; continue; }
-                if (c == 'ぜ') { ret += 'ゼ'; continue; }
-                if (c == 'ぞ') { ret += 'ゾ'; continue; }
-                if (c == 'た') { ret += 'タ'; continue; }
-                if (c == 'ち') { ret += 'チ'; continue; }
-                if (c == 'つ') { ret += 'ツ'; continue; }
-                if (c == 'て') { ret += 'テ'; continue; }
-                if (c == 'と') { ret += 'ト'; continue; }
-                if (c == 'だ') { ret += 'ダ'; continue; }
-                if (c == 'ぢ') { ret += 'ヂ'; continue; }
-                if (c == 'づ') { ret += 'ヅ'; continue; }
-                if (c == 'で') { ret += 'デ'; continue; }
-                if (c == 'ど') { ret += 'ド'; continue; }
-                if (c == 'な') { ret += 'ナ'; continue; }
-                if (c == 'に') { ret += 'ニ'; continue; }
-                if (c == 'ぬ') { ret += 'ヌ'; continue; }
-                if (c == 'ね') { ret += 'ネ'; continue; }
-                if (c == 'の') { ret += 'ノ'; continue; }
-                if (c == 'は') { ret += 'ハ'; continue; }
-                if (c == 'ひ') { ret += 'ヒ'; continue; }
-                if (c == 'ふ') { ret += 'フ'; continue; }
-                if (c == 'へ') { ret += 'ヘ'; continue; }
-                if (c == 'ほ') { ret += 'ホ'; continue; }
-                if (c == 'ば') { ret += 'バ'; continue; }
-                if (c == 'び') { ret += 'ビ'; continue; }
-                if (c == 'ぶ') { ret += 'ブ'; continue; }
-                if (c == 'べ') { ret += 'ベ'; continue; }
-                if (c == 'ぼ') { ret += 'ボ'; continue; }
-                if (c == 'ぱ') { ret += 'パ'; continue; }
-                if (c == 'ぴ') { ret += 'ピ'; continue; }
-                if (c == 'ぷ') { ret += 'プ'; continue; }
-                if (c == 'ぺ') { ret += 'ペ'; continue; }
-                if (c == 'ぽ') { ret += 'ポ'; continue; }
-                if (c == 'ま') { ret += 'マ'; continue; }
-                if (c == 'み') { ret += 'ミ'; continue; }
-                if (c == 'む') { ret += 'ム'; continue; }
-                if (c == 'め') { ret += 'メ'; continue; }
-                if (c == 'も') { ret += 'モ'; continue; }
-                if (c == 'や') { ret += 'ヤ'; continue; }
-                if (c == 'ゆ') { ret += 'ユ'; continue; }
-                if (c == 'よ') { ret += 'ヨ'; continue; }
-                if (c == 'ら') { ret += 'ラ'; continue; }
-                if (c == 'り') { ret += 'リ'; continue; }
-                if (c == 'る') { ret += 'ル'; continue; }
-                if (c == 'れ') { ret += 'レ'; continue; }
-                if (c == 'ろ') { ret += 'ロ'; continue; }
-                if (c == 'わ') { ret += 'ワ'; continue; }
-                if (c == 'を') { ret += 'ヲ'; continue; }
-                if (c == 'ん') { ret += 'ン'; continue; }
-                if (c == 'ア') { ret += 'あ'; continue; }
-                if (c == 'ヰ' || c == 'イ') { ret += 'い'; continue; }
-                if (c == 'ウ') { ret += 'う'; continue; }
-                if (c == 'ヱ' || c == 'エ') { ret += 'え'; continue; }
-                if (c == 'ヲ' || c == 'オ') { ret += 'お'; continue; }
-                if (c == 'カ') { ret += 'か'; continue; }
-                if (c == 'キ') { ret += 'き'; continue; }
-                if (c == 'ク') { ret += 'く'; continue; }
-                if (c == 'ケ') { ret += 'け'; continue; }
-                if (c == 'コ') { ret += 'こ'; continue; }
-                if (c == 'ガ') { ret += 'が'; continue; }
-                if (c == 'ギ') { ret += 'ぎ'; continue; }
-                if (c == 'グ') { ret += 'ぐ'; continue; }
-                if (c == 'ゲ') { ret += 'げ'; continue; }
-                if (c == 'ゴ') { ret += 'ご'; continue; }
-                if (c == 'サ') { ret += 'さ'; continue; }
-                if (c == 'シ') { ret += 'し'; continue; }
-                if (c == 'ス') { ret += 'す'; continue; }
-                if (c == 'セ') { ret += 'せ'; continue; }
-                if (c == 'ソ') { ret += 'そ'; continue; }
-                if (c == 'ザ') { ret += 'ざ'; continue; }
-                if (c == 'ジ') { ret += 'じ'; continue; }
-                if (c == 'ズ') { ret += 'ず'; continue; }
-                if (c == 'ゼ') { ret += 'ぜ'; continue; }
-                if (c == 'ゾ') { ret += 'ぞ'; continue; }
-                if (c == 'タ') { ret += 'た'; continue; }
-                if (c == 'チ') { ret += 'ち'; continue; }
-                if (c == 'ツ') { ret += 'つ'; continue; }
-                if (c == 'テ') { ret += 'て'; continue; }
-                if (c == 'ト') { ret += 'と'; continue; }
-                if (c == 'ダ') { ret += 'だ'; continue; }
-                if (c == 'ヂ') { ret += 'ぢ'; continue; }
-                if (c == 'ヅ') { ret += 'づ'; continue; }
-                if (c == 'デ') { ret += 'で'; continue; }
-                if (c == 'ド') { ret += 'ど'; continue; }
-                if (c == 'ナ') { ret += 'な'; continue; }
-                if (c == 'ニ') { ret += 'に'; continue; }
-                if (c == 'ヌ') { ret += 'ぬ'; continue; }
-                if (c == 'ネ') { ret += 'ね'; continue; }
-                if (c == 'ノ') { ret += 'の'; continue; }
-                if (c == 'ハ') { ret += 'は'; continue; }
-                if (c == 'ヒ') { ret += 'ひ'; continue; }
-                if (c == 'フ') { ret += 'ふ'; continue; }
-                if (c == 'ヘ') { ret += 'へ'; continue; }
-                if (c == 'ホ') { ret += 'ほ'; continue; }
-                if (c == 'バ') { ret += 'ば'; continue; }
-                if (c == 'ビ') { ret += 'び'; continue; }
-                if (c == 'ブ') { ret += 'ぶ'; continue; }
-                if (c == 'ベ') { ret += 'べ'; continue; }
-                if (c == 'ボ') { ret += 'ぼ'; continue; }
-                if (c == 'パ') { ret += 'ぱ'; continue; }
-                if (c == 'ピ') { ret += 'ぴ'; continue; }
-                if (c == 'プ') { ret += 'ぷ'; continue; }
-                if (c == 'ペ') { ret += 'ぺ'; continue; }
-                if (c == 'ポ') { ret += 'ぽ'; continue; }
-                if (c == 'マ') { ret += 'ま'; continue; }
-                if (c == 'ミ') { ret += 'み'; continue; }
-                if (c == 'ム') { ret += 'む'; continue; }
-                if (c == 'メ') { ret += 'め'; continue; }
-                if (c == 'モ') { ret += 'も'; continue; }
-                if (c == 'ヤ') { ret += 'や'; continue; }
-                if (c == 'ユ') { ret += 'ゆ'; continue; }
-                if (c == 'ヨ') { ret += 'よ'; continue; }
-                if (c == 'ラ') { ret += 'ら'; continue; }
-                if (c == 'リ') { ret += 'り'; continue; }
-                if (c == 'ル') { ret += 'る'; continue; }
-                if (c == 'レ') { ret += 'れ'; continue; }
-                if (c == 'ロ') { ret += 'ろ'; continue; }
-                if (c == 'ワ') { ret += 'わ'; continue; }
-                if (c == 'ヲ') { ret += 'を'; continue; }
-                if (c == 'ン') { ret += 'ん'; continue; }
-                if (c == 'ぁ') { ret += 'ァ'; continue; }
-                if (c == 'ァ') { ret += 'ぁ'; continue; }
-                if (c == 'ぃ') { ret += 'ィ'; continue; }
-                if (c == 'ィ') { ret += 'ぃ'; continue; }
-                if (c == 'ぅ') { ret += 'ゥ'; continue; }
-                if (c == 'ゥ') { ret += 'ぅ'; continue; }
-                if (c == 'ぇ') { ret += 'ェ'; continue; }
-                if (c == 'ぉ') { ret += 'ォ'; continue; }
-                if (c == 'ォ') { ret += 'ぉ'; continue; }
-                if (c == 'っ') { ret += 'ッ'; continue; }
-                if (c == 'ッ') { ret += 'っ'; continue; }
-                if (c == 'ゃ') { ret += 'ャ'; continue; }
-                if (c == 'ャ') { ret += 'ゃ'; continue; }
-                if (c == 'ゅ') { ret += 'ュ'; continue; }
-                if (c == 'ュ') { ret += 'ゅ'; continue; }
-                if (c == 'ょ') { ret += 'ョ'; continue; }
-                if (c == 'ョ') { ret += 'ょ'; continue; }
-                if (c == 'ゎ') { ret += 'ヮ'; continue; }
-                if (c == 'ヮ') { ret += 'ゎ'; continue; }
+                if (qKana)
+                {
+                    if (c == 'あ') { ret += 'ア'; continue; }
+                    if (c == 'い') { ret += 'ヰ'; continue; }
+                    if (c == 'う') { ret += 'ウ'; continue; }
+                    if (c == 'え') { ret += 'ヱ'; continue; }
+                    if (c == 'お') { ret += 'ヲ'; continue; }
+                    if (c == 'か') { ret += 'カ'; continue; }
+                    if (c == 'き') { ret += 'キ'; continue; }
+                    if (c == 'く') { ret += 'ク'; continue; }
+                    if (c == 'け') { ret += 'ケ'; continue; }
+                    if (c == 'こ') { ret += 'コ'; continue; }
+                    if (c == 'が') { ret += 'ガ'; continue; }
+                    if (c == 'ぎ') { ret += 'ギ'; continue; }
+                    if (c == 'ぐ') { ret += 'グ'; continue; }
+                    if (c == 'げ') { ret += 'ゲ'; continue; }
+                    if (c == 'ご') { ret += 'ゴ'; continue; }
+                    if (c == 'さ') { ret += 'サ'; continue; }
+                    if (c == 'し') { ret += 'シ'; continue; }
+                    if (c == 'す') { ret += 'ス'; continue; }
+                    if (c == 'せ') { ret += 'セ'; continue; }
+                    if (c == 'そ') { ret += 'ソ'; continue; }
+                    if (c == 'ざ') { ret += 'ザ'; continue; }
+                    if (c == 'じ') { ret += 'ジ'; continue; }
+                    if (c == 'ず') { ret += 'ズ'; continue; }
+                    if (c == 'ぜ') { ret += 'ゼ'; continue; }
+                    if (c == 'ぞ') { ret += 'ゾ'; continue; }
+                    if (c == 'た') { ret += 'タ'; continue; }
+                    if (c == 'ち') { ret += 'チ'; continue; }
+                    if (c == 'つ') { ret += 'ツ'; continue; }
+                    if (c == 'て') { ret += 'テ'; continue; }
+                    if (c == 'と') { ret += 'ト'; continue; }
+                    if (c == 'だ') { ret += 'ダ'; continue; }
+                    if (c == 'ぢ') { ret += 'ヂ'; continue; }
+                    if (c == 'づ') { ret += 'ヅ'; continue; }
+                    if (c == 'で') { ret += 'デ'; continue; }
+                    if (c == 'ど') { ret += 'ド'; continue; }
+                    if (c == 'な') { ret += 'ナ'; continue; }
+                    if (c == 'に') { ret += 'ニ'; continue; }
+                    if (c == 'ぬ') { ret += 'ヌ'; continue; }
+                    if (c == 'ね') { ret += 'ネ'; continue; }
+                    if (c == 'の') { ret += 'ノ'; continue; }
+                    if (c == 'は') { ret += 'ハ'; continue; }
+                    if (c == 'ひ') { ret += 'ヒ'; continue; }
+                    if (c == 'ふ') { ret += 'フ'; continue; }
+                    if (c == 'へ') { ret += 'ヘ'; continue; }
+                    if (c == 'ほ') { ret += 'ホ'; continue; }
+                    if (c == 'ば') { ret += 'バ'; continue; }
+                    if (c == 'び') { ret += 'ビ'; continue; }
+                    if (c == 'ぶ') { ret += 'ブ'; continue; }
+                    if (c == 'べ') { ret += 'ベ'; continue; }
+                    if (c == 'ぼ') { ret += 'ボ'; continue; }
+                    if (c == 'ぱ') { ret += 'パ'; continue; }
+                    if (c == 'ぴ') { ret += 'ピ'; continue; }
+                    if (c == 'ぷ') { ret += 'プ'; continue; }
+                    if (c == 'ぺ') { ret += 'ペ'; continue; }
+                    if (c == 'ぽ') { ret += 'ポ'; continue; }
+                    if (c == 'ま') { ret += 'マ'; continue; }
+                    if (c == 'み') { ret += 'ミ'; continue; }
+                    if (c == 'む') { ret += 'ム'; continue; }
+                    if (c == 'め') { ret += 'メ'; continue; }
+                    if (c == 'も') { ret += 'モ'; continue; }
+                    if (c == 'や') { ret += 'ヤ'; continue; }
+                    if (c == 'ゆ') { ret += 'ユ'; continue; }
+                    if (c == 'よ') { ret += 'ヨ'; continue; }
+                    if (c == 'ら') { ret += 'ラ'; continue; }
+                    if (c == 'り') { ret += 'リ'; continue; }
+                    if (c == 'る') { ret += 'ル'; continue; }
+                    if (c == 'れ') { ret += 'レ'; continue; }
+                    if (c == 'ろ') { ret += 'ロ'; continue; }
+                    if (c == 'わ') { ret += 'ワ'; continue; }
+                    if (c == 'を') { ret += 'ヲ'; continue; }
+                    if (c == 'ん') { ret += 'ン'; continue; }
+                    if (c == 'ア') { ret += 'あ'; continue; }
+                    if (c == 'ヰ' || c == 'イ') { ret += 'い'; continue; }
+                    if (c == 'ウ') { ret += 'う'; continue; }
+                    if (c == 'ヱ' || c == 'エ') { ret += 'え'; continue; }
+                    if (c == 'ヲ' || c == 'オ') { ret += 'お'; continue; }
+                    if (c == 'カ') { ret += 'か'; continue; }
+                    if (c == 'キ') { ret += 'き'; continue; }
+                    if (c == 'ク') { ret += 'く'; continue; }
+                    if (c == 'ケ') { ret += 'け'; continue; }
+                    if (c == 'コ') { ret += 'こ'; continue; }
+                    if (c == 'ガ') { ret += 'が'; continue; }
+                    if (c == 'ギ') { ret += 'ぎ'; continue; }
+                    if (c == 'グ') { ret += 'ぐ'; continue; }
+                    if (c == 'ゲ') { ret += 'げ'; continue; }
+                    if (c == 'ゴ') { ret += 'ご'; continue; }
+                    if (c == 'サ') { ret += 'さ'; continue; }
+                    if (c == 'シ') { ret += 'し'; continue; }
+                    if (c == 'ス') { ret += 'す'; continue; }
+                    if (c == 'セ') { ret += 'せ'; continue; }
+                    if (c == 'ソ') { ret += 'そ'; continue; }
+                    if (c == 'ザ') { ret += 'ざ'; continue; }
+                    if (c == 'ジ') { ret += 'じ'; continue; }
+                    if (c == 'ズ') { ret += 'ず'; continue; }
+                    if (c == 'ゼ') { ret += 'ぜ'; continue; }
+                    if (c == 'ゾ') { ret += 'ぞ'; continue; }
+                    if (c == 'タ') { ret += 'た'; continue; }
+                    if (c == 'チ') { ret += 'ち'; continue; }
+                    if (c == 'ツ') { ret += 'つ'; continue; }
+                    if (c == 'テ') { ret += 'て'; continue; }
+                    if (c == 'ト') { ret += 'と'; continue; }
+                    if (c == 'ダ') { ret += 'だ'; continue; }
+                    if (c == 'ヂ') { ret += 'ぢ'; continue; }
+                    if (c == 'ヅ') { ret += 'づ'; continue; }
+                    if (c == 'デ') { ret += 'で'; continue; }
+                    if (c == 'ド') { ret += 'ど'; continue; }
+                    if (c == 'ナ') { ret += 'な'; continue; }
+                    if (c == 'ニ') { ret += 'に'; continue; }
+                    if (c == 'ヌ') { ret += 'ぬ'; continue; }
+                    if (c == 'ネ') { ret += 'ね'; continue; }
+                    if (c == 'ノ') { ret += 'の'; continue; }
+                    if (c == 'ハ') { ret += 'は'; continue; }
+                    if (c == 'ヒ') { ret += 'ひ'; continue; }
+                    if (c == 'フ') { ret += 'ふ'; continue; }
+                    if (c == 'ヘ') { ret += 'へ'; continue; }
+                    if (c == 'ホ') { ret += 'ほ'; continue; }
+                    if (c == 'バ') { ret += 'ば'; continue; }
+                    if (c == 'ビ') { ret += 'び'; continue; }
+                    if (c == 'ブ') { ret += 'ぶ'; continue; }
+                    if (c == 'ベ') { ret += 'べ'; continue; }
+                    if (c == 'ボ') { ret += 'ぼ'; continue; }
+                    if (c == 'パ') { ret += 'ぱ'; continue; }
+                    if (c == 'ピ') { ret += 'ぴ'; continue; }
+                    if (c == 'プ') { ret += 'ぷ'; continue; }
+                    if (c == 'ペ') { ret += 'ぺ'; continue; }
+                    if (c == 'ポ') { ret += 'ぽ'; continue; }
+                    if (c == 'マ') { ret += 'ま'; continue; }
+                    if (c == 'ミ') { ret += 'み'; continue; }
+                    if (c == 'ム') { ret += 'む'; continue; }
+                    if (c == 'メ') { ret += 'め'; continue; }
+                    if (c == 'モ') { ret += 'も'; continue; }
+                    if (c == 'ヤ') { ret += 'や'; continue; }
+                    if (c == 'ユ') { ret += 'ゆ'; continue; }
+                    if (c == 'ヨ') { ret += 'よ'; continue; }
+                    if (c == 'ラ') { ret += 'ら'; continue; }
+                    if (c == 'リ') { ret += 'り'; continue; }
+                    if (c == 'ル') { ret += 'る'; continue; }
+                    if (c == 'レ') { ret += 'れ'; continue; }
+                    if (c == 'ロ') { ret += 'ろ'; continue; }
+                    if (c == 'ワ') { ret += 'わ'; continue; }
+                    if (c == 'ヲ') { ret += 'を'; continue; }
+                    if (c == 'ン') { ret += 'ん'; continue; }
+                    if (c == 'ぁ') { ret += 'ァ'; continue; }
+                    if (c == 'ァ') { ret += 'ぁ'; continue; }
+                    if (c == 'ぃ') { ret += 'ィ'; continue; }
+                    if (c == 'ィ') { ret += 'ぃ'; continue; }
+                    if (c == 'ぅ') { ret += 'ゥ'; continue; }
+                    if (c == 'ゥ') { ret += 'ぅ'; continue; }
+                    if (c == 'ぇ') { ret += 'ェ'; continue; }
+                    if (c == 'ぉ') { ret += 'ォ'; continue; }
+                    if (c == 'ォ') { ret += 'ぉ'; continue; }
+                    if (c == 'っ') { ret += 'ッ'; continue; }
+                    if (c == 'ッ') { ret += 'っ'; continue; }
+                    if (c == 'ゃ') { ret += 'ャ'; continue; }
+                    if (c == 'ャ') { ret += 'ゃ'; continue; }
+                    if (c == 'ゅ') { ret += 'ュ'; continue; }
+                    if (c == 'ュ') { ret += 'ゅ'; continue; }
+                    if (c == 'ょ') { ret += 'ョ'; continue; }
+                    if (c == 'ョ') { ret += 'ょ'; continue; }
+                    if (c == 'ゎ') { ret += 'ヮ'; continue; }
+                    if (c == 'ヮ') { ret += 'ゎ'; continue; }
+                }
                 if (c == '0' || c == '０') { ret += '〇'; continue; }
                 if (c == '1' || c == '１') { ret += '一'; continue; }
                 if (c == '2' || c == '２') { ret += '二'; continue; }

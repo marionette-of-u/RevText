@@ -368,7 +368,7 @@ namespace RevText
                 else
                 {
                     UInt16 a = neworderOld[n];
-                    if (/*translateCode*/ true)
+                    if (translateCode)
                     {
                         string code = "&#" + a.ToString() + ";";
                         for (int j = 0; j < code.Length; ++j)
